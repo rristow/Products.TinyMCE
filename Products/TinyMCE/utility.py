@@ -660,6 +660,12 @@ class TinyMCE(SimpleItem):
     security.declareProtected('View', 'getContentType')
     def getContentType(self, object=None, field=None, fieldname=None):
         context = aq_base(object)
+
+        # Provisory fix - avoid the lost of acquisition chain for some types 
+        # (attribute error at Tinymce startup)
+        if not context.absolute_url():
+            context = object
+        
         if context is not None and IBaseObject.providedBy(context):
             # support Archetypes fields
             if field is not None:
@@ -878,6 +884,10 @@ class TinyMCE(SimpleItem):
         props = getToolByName(portal, 'portal_properties')
         plone_livesearch = props.site_properties.getProperty('enable_livesearch', False)
         livesearch = props.site_properties.getProperty('enable_tinymce_livesearch', plone_livesearch)
+
+        # Performance problems if there are many objects. TODO: change config
+        livesearch = False
+
         results['livesearch'] = bool(livesearch)
 
         AVAILABLE_LANGUAGES = set(
