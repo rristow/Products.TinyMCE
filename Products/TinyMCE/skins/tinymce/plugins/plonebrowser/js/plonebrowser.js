@@ -137,8 +137,9 @@ BrowserDialog.prototype.init = function () {
     if (this.editor.settings.rooted === true) {
         jq('#home', document).hide();
     }
+    // Enable the preview button, TODO: change config
     if (!this.editor.settings.enable_external_link_preview) {
-        jq('#preview-column', document).hide();
+        //jq('#preview-column', document).hide();
     }
 
     // setup UI depending on plugin type
@@ -164,7 +165,8 @@ BrowserDialog.prototype.init = function () {
             switch (jq(this).attr('href')) {
                 case "#internal":
                     self.displayPanel('browse');
-                    self.getCurrentFolderListing();
+                    // Performance problem if there are to many objects
+                    //self.getCurrentFolderListing();
                     break;
                 case "#external":
                     self.displayPanel('external');
