@@ -165,8 +165,7 @@ BrowserDialog.prototype.init = function () {
             switch (jq(this).attr('href')) {
                 case "#internal":
                     self.displayPanel('browse');
-                    // Performance problem if there are to many objects
-                    //self.getCurrentFolderListing();
+                    self.getCurrentFolderListing();
                     break;
                 case "#external":
                     self.displayPanel('external');
@@ -805,7 +804,10 @@ BrowserDialog.prototype.setDetails = function (url) {
  * Utility method to update the middle pane with the current context listing.
  */
 BrowserDialog.prototype.getCurrentFolderListing = function () {
-    this.getFolderListing(this.editor.settings.document_base_url, this.method_folderlisting);
+    //this.getFolderListing(this.editor.settings.document_base_url, this.method_folderlisting);
+    // Improve performance search for some specific objects
+    jq('#searchtext', document).val("shortcutlinks");
+    this.checkSearch({"which": 13});
 };
 
 
